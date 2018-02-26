@@ -1,0 +1,22 @@
+{
+  "name": "sequential-logic",
+  "version": "0.0.0",
+  "description": "Find boolean expression to make sequential circuits",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emavola/sequential-logic.git"
+  },
+  "author": "Emanuele Volanti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emavola/sequential-logic/issues"
+  },
+  "homepage": "https://github.com/emavola/sequential-logic#readme",
+  "devDependencies": {
+    "xo": "^0.20.3"
+  }
+}
