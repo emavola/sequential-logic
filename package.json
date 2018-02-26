@@ -18,5 +18,10 @@
   "homepage": "https://github.com/emavola/sequential-logic#readme",
   "devDependencies": {
     "xo": "^0.20.3"
+  },
+  "dependencies": {
+    "boolean-exp-minimizer": "^1.0.1",
+    "state-machine-graph": "^1.1.0",
+    "state-machine-minimizer": "^1.1.3"
   }
 }
