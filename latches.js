@@ -1,47 +1,80 @@
-const sr = (nowBit, afterBit) => {
-	let s;
-	let r;
+const Bem = require('boolean-exp-minimizer');
 
-	if (nowBit & afterBit) {
-		s = '-';
-	} else {
-		s = nowBit & afterBit;
-	}
+const SR = (len, nameS, nameR, variables) => {
+	this.bS = new Bem(len, {name: nameS, alpha: variables});
+	this.bR = new Bem(len, {name: nameR, alpha: variables});
 
-	if (nowBit | afterBit) {
-		r = 0;
-	} else {
-		r = '-';
-	}
+	this.pushBit = (nowBit, afterBit, minTerm) => {
+		if (nowBit & afterBit) {
+			this.bS.pushDontCare(minTerm);
+		} else if (nowBit & afterBit) {
+			this.bS.push(minTerm);
+		}
 
-	return [s, r];
+		if (!(nowBit | afterBit)) {
+			this.bR.pushDontCare(minTerm);
+		}
+	};
+
+	this.getExpression = () => {
+		return [this.bS, this.bR];
+	};
 };
 
-const jk = (nowBit, afterBit) => {
-	let j;
-	let k;
+const JK = (len, nameJ, nameK, variables) => {
+	this.bJ = new Bem(len, {name: nameJ, alpha: variables});
+	this.bK = new Bem(len, {name: nameK, alpha: variables});
 
-	if (nowBit) {
-		j = '-';
-		k = afterBit;
-	} else {
-		j = afterBit;
-		k = '-';
-	}
-	return [j, k];
+	this.pushBit = (nowBit, afterBit, minTerm) => {
+		if (nowBit) {
+			this.bJ.pushDontCare(minTerm);
+			if (afterBit) {
+				this.bK.push(minTerm);
+			}
+		} else {
+			this.bK.pushDontCare(minTerm);
+			if (afterBit) {
+				this.bJ.push(minTerm);
+			}
+		}
+	};
+
+	this.getExpression = () => {
+		return [this.bJ, this.bK];
+	};
 };
 
-const d = (nowBit, afterBit) => {
-	return afterBit;
+const D = (len, nameD, variables) => {
+	this.bD = new Bem(len, {name: nameD, alpha: variables});
+
+	this.pushBit = (nowBit, afterBit, minTerm) => {
+		if (afterBit) {
+			this.bD.push(minTerm);
+		}
+	};
+
+	this.getExpression = () => {
+		return [this.bD];
+	};
 };
 
-const t = (nowBit, afterBit) => {
-	return nowBit ^ afterBit;
+const T = (len, nameT, variables) => {
+	this.bT = new Bem(len, {name: nameT, alpha: variables});
+
+	this.pushBit = (nowBit, afterBit, minTerm) => {
+		if (nowBit ^ afterBit) {
+			this.bT.push(minTerm);
+		}
+	};
+
+	this.getExpression = () => {
+		return [this.bT];
+	};
 };
 
 module.exports = {
-	sr,
-	jk,
-	d,
-	t
+	SR,
+	JK,
+	D,
+	T
 };
